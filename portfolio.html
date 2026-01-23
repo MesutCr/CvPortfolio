@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik Tasarımcı Portfolyo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- GENEL AYARLAR --- */
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #00d9ff;
+            --bg-color: #0a0a0a;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HAREKETLİ NEON ZEMİN */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(-45deg, #000000, #0a1f14, #001a25, #000000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -2;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 217, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* HEADER */
+        header {
+            padding: 1.5rem;
+            text-align: center;
+            background: rgba(10, 10, 10, 0.7); 
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-title h2 {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #cccccc;
+        }
+
+        /* HERO BÖLÜMÜ */
+        .hero {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            flex-shrink: 0;
+        }
+
+        .bio-text {
+            flex-grow: 1;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* YETENEKLER & HİZMETLER WRAPPER */
+        .skills-wrapper {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* Ortak Kutu Stili */
+        .skill-box {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skill-box h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Sol: Hizmetler (GÜNCELLENDİ: Kutu Görünümü Kaldırıldı) */
+        .professions {
+            flex: 1;
+        }
+
+        .professions ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem; /* Mesafe azaltıldı */
+        }
+
+        .professions li {
+            /* Arka plan kutusu kaldırıldı */
+            background: transparent; 
+            padding: 0.2rem 0; /* Padding azaltıldı */
+            border-left: 3px solid var(--secondary-color); /* Sadece sol çizgi kaldı */
+            padding-left: 15px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        
+        .professions li:hover {
+            color: var(--primary-color);
+            padding-left: 20px; /* Hover efekti */
+        }
+
+        /* Sağ: Yazılım Bilgisi */
+        .software-skills {
+            flex: 2;
+        }
+
+        .software-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .skill-item { margin-bottom: 1rem; }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0;
+            transition: width 1s ease-out;
+        }
+
+        /* INFO SECTION */
+        .info-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .info-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        /* PORTFOLYO GRID */
+        .portfolio {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 20px;
+        }
+
+        .portfolio h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 150px;
+            background: #222;
+            object-fit: cover;
+        }
+
+        .card-content { padding: 1rem; }
+        .card-content h3 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--primary-color); }
+
+        /* MODAL (SLIDER) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            overflow-y: auto;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: 5vh auto;
+            width: 90%;
+            max-width: 1100px;
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.2);
+            display: flex;
+            overflow: hidden;
+            min-height: 700px;
+        }
+
+        .modal-text {
+            flex: 1;
+            padding: 2rem;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+        }
+
+        .modal-text h2 { color: var(--primary-color); margin-bottom: 1.5rem; font-size: 2rem; }
+
+        .modal-slider {
+            flex: 1.5;
+            position: relative;
+            background: #000;
+        }
+
+        .slider-container { width: 100%; height: 100%; position: relative; }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .slide.active { opacity: 1; z-index: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white; border: none; padding: 1rem;
+            cursor: pointer; z-index: 10; font-size: 1.5rem; transition: 0.3s;
+        }
+        
+        .slider-btn:hover { background: var(--primary-color); color: #000; }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+
+        .close-btn {
+            position: absolute; right: 20px; top: 15px;
+            color: #fff; font-size: 20px; font-weight: bold;
+            cursor: pointer; z-index: 20; background: rgba(0,0,0,0.5);
+            width: 40px; height: 40px; text-align: center;
+            line-height: 40px; border-radius: 50%;
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(10, 10, 10, 0.9);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-around;
+            flex-wrap: wrap; gap: 2rem; padding: 0 20px;
+        }
+        .contact-item { display: flex; align-items: center; gap: 1rem; }
+        .contact-item i { font-size: 1.5rem; color: var(--secondary-color); }
+
+        /* --- KARİYER GEÇMİŞİ BÖLÜMÜ --- */
+        .career-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 20px;
+        }
+
+        .career-section h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color); /* Mevcut yeşil tonunuz */
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+            font-size: 1.5rem; /* Hizmetler başlığıyla uyumlu */
+        }
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr); /* 4 sütunlu yapı */
+            gap: 1.5rem;
+        }
+
+        .career-card {
+            background: var(--card-bg); /* Mevcut kart arkaplanınız */
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .career-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.1); /* Neon glow efekti */
+        }
+
+        .career-card h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .career-card .company {
+            color: var(--secondary-color); /* Mevcut mavi tonunuz */
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .career-card .year {
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .career-card p {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        /* Mobilde tek sütun, tablette iki sütun olsun */
+        @media (max-width: 1024px) {
+            .career-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .career-grid { grid-template-columns: 1fr; }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .skills-wrapper { flex-direction: column; }
+            .modal-content { flex-direction: column-reverse; min-height: auto; }
+            .modal-slider { height: 300px; flex: none; }
+            .grid { grid-template-columns: repeat(3, 1fr); }
+            .hero { flex-direction: column; align-items: center; }
+            .info-section { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .software-grid { grid-template-columns: 1fr; }
+            .header-title h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>Mesut Coşar</h1>
+            <h2>Senior Art Director</h2>
+        </div>
+    </header>
+
+    <section class="hero">
+        <img src="img/profil.jpg" alt="Profil" class="profile-img">
+        <div class="bio-text">
+            <h3>Hakkımda</h3>
+            <p>2002 yılında başladığım iş hayatıma; sırasıyla desen tasarımı, görsel tasarım ve web tasarımı alanlarındaki deneyimimi bilgi teknolojileri ve yazılım yetkinlikleriyle genişletmeyi sürdürüyorum.
+                <br><br>
+                Güncel olarak AI destekli tasarımlar üretiyor, ilgili tasarım araçlarını aktif kullanıyor ve n8n tabanlı yapay zekâ ajanları/otomasyon sistemleri konusunda uzmanlaşmaya odaklanarak kariyer yolculuğumu sürdürüyorum.
+            </p>
+        </div>
+    </section>
+
+    <!-- HİZMETLER VE YAZILIM (FLEXBOX) -->
+    <section class="skills-wrapper">
+        <!-- Sol: Hizmetler (Sadeleştirildi) -->
+        <div class="skill-box professions">
+            <h3>Hizmetler</h3>
+            <ul>
+                <li>Tasarım Departmanı Yönetimi</li>
+                <li>Fotoğraf & Retouch</li>
+                <li>Web Arayüz Tasarımı</li>
+                <li>UI/UX Tasarım</li>
+                <li>Marka Yönetimi</li>
+                <li>Sosyal Medya Yönetimi </li>
+                <li>Dijital Dönüşüm Uzmanı</li>
+                <li>Baskı Hazırlık</li>
+            </ul>
+        </div>
+
+        <!-- Sağ: Yazılım Bilgisi -->
+        <div class="skill-box software-skills">
+            <h3>Yazılım Bilgisi</h3>
+            <div class="software-grid">
+                <div class="col-1">
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Adobe Photoshop</span><span>95%</span></div><div class="progress-bar"><div class="progress" style="width: 95%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Adobe Illustrator</span><span>90%</span></div><div class="progress-bar"><div class="progress" style="width: 90%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Adobe InDesign</span><span>85%</span></div><div class="progress-bar"><div class="progress" style="width: 85%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Adobe XD</span><span>80%</span></div><div class="progress-bar"><div class="progress" style="width: 80%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Adobe Premiere</span><span>70%</span></div><div class="progress-bar"><div class="progress" style="width: 70%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>After Effects</span><span>65%</span></div><div class="progress-bar"><div class="progress" style="width: 65%"></div></div></div>
+                </div>
+                <div class="col-2">
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Corel Draw</span><span>90%</span></div><div class="progress-bar"><div class="progress" style="width: 90%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Visual Studio Code</span><span>70%</span></div><div class="progress-bar"><div class="progress" style="width: 70%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>n8n</span><span>45%</span></div><div class="progress-bar"><div class="progress" style="width: 45%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Freehand</span><span>100%</span></div><div class="progress-bar"><div class="progress" style="width: 100%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>Procreate</span><span>60%</span></div><div class="progress-bar"><div class="progress" style="width: 60%"></div></div></div>
+                    <div class="skill-item"><div style="display:flex; justify-content:space-between;"><span>HTML/CSS</span><span>80%</span></div><div class="progress-bar"><div class="progress" style="width: 80%"></div></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- KARİYER GEÇMİŞİ -->
+<section class="career-section">
+    <h3>Kariyer Geçmişi</h3>
+    
+    <div class="career-grid">
+        <!-- KART 1 -->
+        <div class="career-card">
+            <h4>Dijital Dönüşüm Uzmanı</h4>
+            <span class="company">Avrupa Elektrik</span>
+            <span class="year">08.2023 - 12.2025</span>
+            <p>
+               Elektrik tedarik sektöründe faaliyet gösteren bir işletmenin BT altyapısı, ERP süreçleri ve kurumsal marka (branding) yönetimini üstlenmekteydim. Bu kapsamda; firewall kurulumu ve sunucu/veritabanı yedekleme süreçlerini yönetiyor; web tasarımı, kodlama, güncelleme işlemlerini yürütüyor ve sosyal medya içerik/yönetim süreçlerinde aktif rol alıyordum.
+            </p>
+        </div>
+
+        <!-- KART 2 -->
+        <div class="career-card">
+            <h4>Senior Art Direktör</h4>
+            <span class="company">Mobilfon Teknoloji A.Ş</span>
+            <span class="year">03.2022 - 11.2022</span>
+            <p>
+               Mobil cihaz dönüşümü sektöründe faaliyet gösteren işletmenin Marka yönetimi alanında yazılım ekibi ile entegre olarak tasarım ve pazarlama departmanında yöneticilik görevini üstlendim.
+            </p>
+        </div>
+
+        <!-- KART 3 -->
+        <div class="career-card">
+            <h4>Senior Art Direktör</h4>
+            <span class="company">Alix Avien Paris</span>
+            <span class="year">06.2021 - 02.2022</span>
+            <p>
+                Kozmetik sektöründe faaliyet gösteren işletmenin tasarım departmanında katalog tasarım, mailing template tasarım ve kodlaması, ürünlerin dijital katalogların oluşturulması görevini üstlendim. Ayrıca ürün fotoğrafları için fotoğraf stüdyosu kurdum ve fotoğraf çekip kataloğa hazırlanacak şekilde retouch işlemlerini gerçekleştirdim.
+            </p>
+        </div>
+
+        <!-- KART 4 -->
+        <div class="career-card">
+            <h4>Art Direktör</h4>
+            <span class="company">Keleşoğlu Holding A.Ş. </span>
+            <span class="year">08.2017 - 11.2020</span>
+            <p>
+               İnşaat sektöründe faaliyet gösteren işletmenin holding ve bağlı holding şirketlerinin web site tasarımları, sosyal medya reklamları, langing page tasarım ve 360 derece çekimlerin web entegrasyonları görevini üstlendim.
+            </p>
+        </div>
+
+        <!-- KART 5 -->
+        <div class="career-card">
+            <h4>Grafik Tasarım Uzmanı</h4>
+            <span class="company">Setrow Solution</span>
+            <span class="year">09.2013 - 08.2017</span>
+            <p>
+                E-mail marketing sektöründe faaliyet gösteren işletmenin müşteriden gelen talepler doğrultusunda mailing template tasarımı ve html / css kodlama işlemlerini gerçekleştirme görevini üstlendim.
+            </p>
+        </div>
+
+        <!-- KART 6 -->
+        <div class="career-card">
+            <h4>Grafik Tasarım Uzmanı</h4>
+            <span class="company">Setre Tekstil</span>
+            <span class="year">06.2012 - 02.2013</span>
+            <p>
+               Kadın giyim markasının sezonluk koleksiyonları için görsel tasarım ve fotoğrafçılık süreçlerini birleştirerek; katalog, broşür ve kampanya materyallerinin hazırlanmasından model çekimlerine kadar uçtan uca görsel içerik üretimi gerçekleştirdim.
+            </p>
+        </div>
+
+        <!-- KART 7 -->
+        <div class="career-card">
+            <h4>Desinatör</h4>
+            <span class="company">Sunset Emprime</span>
+            <span class="year">08.2004 - 09.2008</span>
+            <p>
+                Parça baskı (emprime) alanında faaliyet gösteren tekstil fabrikasında; desen tasarımı ve baskı öncesi hazırlık süreçlerini yürüttüm
+            </p>
+        </div>
+
+        <!-- KART 8 -->
+        <div class="career-card">
+            <h4>Grafiker</h4>
+            <span class="company">Mondo Grafik</span>
+            <span class="year">07.2002 - 08.2004</span>
+            <p>
+                Grafik ve tekstil tasarım sektörüne giriş yaptığım bu ajansta; hem yaratıcı tasarım süreçlerinde grafiker olarak rol aldım hem de baskı sorumluluğunu üstlenerek üretim aşamalarını yönettim.
+            </p>
+        </div>
+    </div>
+</section>
+
+    <!-- INFO SECTION -->
+    <section class="info-section">
+        <div class="info-card">
+            <h3>Kişisel Bilgiler</h3>
+            <p><strong>İngilizce Seviyesi:</strong> B2 (Upper Intermediate)</p>
+            <p><strong>TC Kimlik No:</strong> 26068680916</p>
+            <p><strong>Askerlik Durumu:</strong> Tamamlandı (2015)</p>
+            <p><strong>Sürücü Belgesi:</strong> B Sınıfı (Aktif)</p>
+        </div>
+        <div class="info-card">
+            <h3>Eğitim</h3>
+            <p><strong>Lisans:</strong> Kocaeli Üniversitesi / Görsel İletişim Tasarım (2008-2013)</p>
+            <p><strong>Lise:</strong> Şişli Kurtuluş Lisesi (1999-2002)</p>
+        </div>
+        <div class="info-card">
+            <h3>Referanslar</h3>
+            <p><strong>Tunç Tuncer</strong><br>Yönetim Kurulu Başkanı / Avrupa Elektrik</p>
+            <p><strong>Önder Güvel</strong><br>Genel Müdür / Mondo Grafik</p>
+        </div>
+    </section>
+
+    <!-- PORTFOLYO CARD GRID (16 ADET) -->
+    <section class="portfolio">
+        <h2>PORTFOLYO</h2>
+        <div class="grid">
+            <!-- 1-16 arası kartlar. Döngüyle oluşturulmuş gibi -->
+            <div class="card" onclick="openModal('modal1')"><img src="img/Lotus-Yasam.jpg" class="card-img"><div class="card-content"><h3>Lotus Yaşam</h3><p>Broşür</p></div></div>
+            <div class="card" onclick="openModal('modal2')"><img src="img/LotusOfis-1.jpg" class="card-img"><div class="card-content"><h3>Lotus Ofis</h3><p>Broşür</p></div></div>
+            <div class="card" onclick="openModal('modal3')"><img src="img/Kelesoglu-web1.jpg" class="card-img"><div class="card-content"><h3>Keleşoğlu Holding</h3><p>Web Sitesi</p></div></div>
+            <div class="card" onclick="openModal('modal4')"><img src="img/cennetkoru-1.jpg" class="card-img"><div class="card-content"><h3>CennetKoru</h3><p>Web Sitesi</p></div></div>
+            <div class="card" onclick="openModal('modal5')"><img src="img/1ekim-1.jpg" class="card-img"><div class="card-content"><h3>1 Ekim Ajans</h3><p>Web Sitesi</p></div></div>
+            <div class="card" onclick="openModal('modal6')"><img src="img/specimob-1.jpg" class="card-img"><div class="card-content"><h3>Specimob</h3><p>Web Sitesi</p></div></div>
+            <div class="card" onclick="openModal('modal7')"><img src="img/infiringo-1.jpg" class="card-img"><div class="card-content"><h3>İnfiringo</h3><p>Uygulama</p></div></div>
+            <div class="card" onclick="openModal('modal8')"><img src="img/LotusVadi-1.jpg" class="card-img"><div class="card-content"><h3>Lotus Vadi Konakları</h3><p>Katalog</p></div></div>
+            <div class="card" onclick="openModal('modal9')"><img src="img/Greenville-1.jpg" class="card-img"><div class="card-content"><h3>Greenville</h3><p>Katalog</p></div></div>
+            <div class="card" onclick="openModal('modal10')"><img src="img/Billboard_Mockup_1.jpg" class="card-img"><div class="card-content"><h3>Alix Avien</h3><p>Billboard</p></div></div>
+            <div class="card" onclick="openModal('modal11')"><img src="img/LED_Billboard_Mockup_1.jpg" class="card-img"><div class="card-content"><h3>Keleşoğlu Holding</h3><p>Billboard</p></div></div>
+            <div class="card" onclick="openModal('modal12')"><img src="img/Citylight_Mockup_1.jpg" class="card-img"><div class="card-content"><h3>Keleoşoğlu Holding</h3><p>Citylight</p></div></div>
+            <div class="card" onclick="openModal('modal13')"><img src="img/Denizistanbul-flyer-1.jpg" class="card-img"><div class="card-content"><h3>Keleşoğlu Holding</h3><p>Citylight</p></div></div>
+            <div class="card" onclick="openModal('modal14')"><img src="img/Foto-denizistanbul-1.jpg" class="card-img"><div class="card-content"><h3>Denizistanbul</h3><p>Foto & Retouch</p></div></div>
+            <div class="card" onclick="openModal('modal15')"><img src="img/Foto-istanblum-1.jpg" class="card-img"><div class="card-content"><h3>Denizistanbul</h3><p>Foto & Retouch</p></div></div>
+            <div class="card" onclick="openModal('modal16')"><img src="img/Foto-alixavien-1.jpg" class="card-img"><div class="card-content"><h3>Alixavien</h3><p>Foto & Retouch</p></div></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="contact-item"><i class="fa-solid fa-envelope"></i><p>mesutcr@gmail.com</p></div>
+            <div class="contact-item"><i class="fa-solid fa-phone"></i><p>+90 536 857 62 35</p></div>
+            <div class="contact-item"><i class="fa-solid fa-location-dot"></i><p>Maltepe - İstanbul, Türkiye</p></div>
+        </div>
+    </footer>
+
+    <!-- 16 ADET MODAL (SLIDER ÖRNEKLİ) -->
+    <!-- Tek tek oluşturuldu, ID'ler kartlardaki ile eşleşiyor -->
+    
+    <div id="modal1" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal1')">&times;</span>
+        
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal1', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Lotus-Yasam.jpg"></div><div class="slide"><img src="img/Lotus-Yasam-2.jpg"></div><div class="slide"><img src="img/Lotus-Yasam-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal1', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal2" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal2')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal2', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/LotusOfis-1.jpg"></div><div class="slide"><img src="img/LotusOfis-2.jpg"></div><div class="slide"><img src="img/LotusOfis-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal2', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal3" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal3')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal3', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Kelesoglu-web1.jpg"></div><div class="slide"><img src="img/Kelesoglu-web2.jpg"></div><div class="slide"><img src="img/Kelesoglu-web3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal3', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal4" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal4')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal4', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/cennetkoru-1.jpg"></div><div class="slide"><img src="img/cennetkoru-2.jpg"></div><div class="slide"><img src="img/cennetkoru-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal4', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal5" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal5')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal5', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/1ekim-1.jpg"></div><div class="slide"><img src="img/1ekim-2.jpg"></div><div class="slide"><img src="img/1ekim-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal5', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal6" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal6')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal6', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/specimob-1.jpg"></div><div class="slide"><img src="img/specimob-2.jpg"></div><div class="slide"><img src="img/specimob-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal6', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal7" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal7')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal7', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/infiringo-1.jpg"></div><div class="slide"><img src="img/infiringo-2.jpg"></div><div class="slide"><img src="img/infiringo-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal7', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal8" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal8')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal8', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/LotusVadi-1.jpg"></div><div class="slide"><img src="img/LotusVadi-2.jpg"></div><div class="slide"><img src="img/LotusVadi-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal8', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal9" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal9')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal9', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Greenville-1.jpg"></div><div class="slide"><img src="img/Greenville-2.jpg"></div><div class="slide"><img src="img/Greenville-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal9', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal10" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal10')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal10', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Billboard_Mockup_1.jpg"></div><div class="slide"><img src="img/Billboard_Mockup_2.jpg"></div><div class="slide"><img src="img/Billboard_Mockup_3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal10', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal11" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal11')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal11', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/LED_Billboard_Mockup_1.jpg"></div><div class="slide"><img src="img/LED_Billboard_Mockup_2.jpg"></div><div class="slide"><img src="img/LED_Billboard_Mockup_3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal11', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal12" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal12')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal12', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Citylight_Mockup_1.jpg"></div><div class="slide"><img src="img/Citylight_Mockup_2.jpg"></div><div class="slide"><img src="img/Citylight_Mockup_3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal12', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal13" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal13')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal13', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Denizistanbul-flyer-1.jpg"></div><div class="slide"><img src="img/Denizistanbul-flyer-2.jpg"></div><div class="slide"><img src="img/Denizistanbul-flyer-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal13', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal14" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal14')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal14', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Foto-denizistanbul-1.jpg"></div><div class="slide"><img src="img/Foto-denizistanbul-2.jpg"></div><div class="slide"><img src="img/Foto-denizistanbul-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal14', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal15" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal15')">&times;</span>
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal15', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Foto-istanblum-1.jpg"></div><div class="slide"><img src="img/Foto-istanblum-2.jpg"></div><div class="slide"><img src="img/Foto-istanblum-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal15', 1)">&#10095;</button></div>
+    </div></div>
+
+    <div id="modal16" class="modal"><div class="modal-content"><span class="close-btn" onclick="closeModal('modal16')">&times;</span>
+       <!--<div class="modal-text"><h2>Alix Avien</h2><p>Proje açıklaması ve detaylar...</p></div>--> 
+        <div class="modal-slider"><button class="slider-btn prev-btn" onclick="moveSlide('modal16', -1)">&#10094;</button><div class="slider-container"><div class="slide active"><img src="img/Foto-alixavien-1.jpg"></div><div class="slide"><img src="img/Foto-alixavien-2.jpg"></div><div class="slide"><img src="img/Foto-alixavien-3.jpg"></div></div><button class="slider-btn next-btn" onclick="moveSlide('modal16', 1)">&#10095;</button></div>
+    </div></div>
+
+    <script>
+        function openModal(modalId) {
+            var modal = document.getElementById(modalId);
+            if(modal) { modal.style.display = "block"; document.body.style.overflow = "hidden"; }
+        }
+
+        function closeModal(modalId) {
+            var modal = document.getElementById(modalId);
+            if(modal) { modal.style.display = "none"; document.body.style.overflow = "auto"; }
+        }
+
+        function moveSlide(modalId, n) {
+            var modal = document.getElementById(modalId);
+            var slides = modal.getElementsByClassName("slide");
+            var currentSlideIndex = 0;
+            for (var i = 0; i < slides.length; i++) {
+                if (slides[i].classList.contains("active")) {
+                    currentSlideIndex = i;
+                    slides[i].classList.remove("active");
+                    break;
+                }
+            }
+            var nextSlideIndex = currentSlideIndex + n;
+            if (nextSlideIndex >= slides.length) { nextSlideIndex = 0; }
+            if (nextSlideIndex < 0) { nextSlideIndex = slides.length - 1; }
+            slides[nextSlideIndex].classList.add("active");
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+    </script>
+</body>
+</html>
